@@ -1,0 +1,6 @@
+<svg width="30" height="38" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1">
+  <title>Location pin</title>
+  <path id="location-pin--shape" fill="#fff" stroke="#000" stroke-width="2"
+        d="m14.91693,1.01428c-7.68608,0 -13.91694,6.23366 -13.91694,13.92322c0,3.43289 1.24751,6.57019 3.30623,8.99785l10.61071,12.50197l10.61031,-12.50237c2.05872,-2.42727 3.44335,-5.56496 3.44335,-8.99784c0.00039,-7.68916 -6.36758,-13.92282 -14.05367,-13.92282z"/>
+  <ellipse id="svg_1" ry="5" rx="5" cy="15" cx="15" fill="#000"/>
+</svg>

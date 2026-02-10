@@ -1,0 +1,36 @@
+.list {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 0.8rem;
+    padding-inline-start: 0;
+
+    .icon {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background-color: #f0f0f0;
+    padding: 0.4rem 0.8rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 400;
+  }
+
+  &__address,
+  &__web {
+    display: flex;
+    gap: 0.4rem;
+
+    * {
+      font-style: normal;
+    }
+  }
+}

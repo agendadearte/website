@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sketchbox.agendadearte.com"
+        }
+      ],
+      "destination": "https://github.com/agendadearte/sketchbox#sketchbox"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+.leaflet-container .leaflet-control-attribution {
+  color: #fff;
+  background-color: #000;
+}
+
+.leaflet-container .leaflet-control-attribution a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.leaflet-container .leaflet-popup-content-wrapper {
+  border-radius: 0;
+}
+
+.leaflet-container .leaflet-popup-content a {
+  color: #000;
+}
+
+.leaflet-container .marker-cluster-small,
+.leaflet-container .marker-cluster-medium,
+.leaflet-container .marker-cluster-large {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.leaflet-container .marker-cluster-small div,
+.leaflet-container .marker-cluster-medium div,
+.leaflet-container .marker-cluster-large div {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.leaflet-container .marker-cluster-small div,
+.leaflet-container .marker-cluster-medium div,
+.leaflet-container .marker-cluster-large div {
+  color: #fff;
+  font-weight: bold;
+}

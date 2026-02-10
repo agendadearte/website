@@ -1,0 +1,15 @@
+.button {
+  border: none;
+  border-radius: 0;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+
+  &--primary {
+    background-color: var(--brand-color-primary-dark);
+    color: var(--brand-color-primary-inverse);
+
+    &:hover {
+      background-color: var(--brand-color-primary-base);
+    }
+  }
+}

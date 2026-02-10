@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500&amp;display=swap");
+@import url("https://fonts.googleapis.com/css?family=Urbanist:300&amp;display=swap");
+
+:root {
+  --color-neutral-00: hsl(200, 10, 100%);
+  --color-neutral-20: hsl(200, 10, 80%);
+  --color-neutral-40: hsl(200, 10, 60%);
+  --color-neutral-60: hsl(200, 10, 40%);
+  --color-neutral-80: hsl(200, 10, 20%);
+  --color-neutral-90: hsl(200, 10, 10%);
+  --color-neutral-100: hsl(200, 10, 0%);
+
+  --brand-color-primary-light: var(--color-neutral-60);
+  --brand-color-primary-base: var(--color-neutral-80);
+  --brand-color-primary-dark: var(--color-neutral-100);
+  --brand-color-primary-inverse: var(--color-neutral-00);
+
+  --sketch-box-card-title-font-weight: 300;
+}
+
+#root {
+  margin-top: 7.2rem;
+  margin-bottom: 0.4rem;
+}
+
+body {
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+h4 {
+  font-weight: 500;
+}

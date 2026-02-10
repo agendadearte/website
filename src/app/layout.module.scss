@@ -1,0 +1,43 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.logo {
+  display: inline-flex;
+  gap: 0.8rem;
+  align-items: flex-end;
+  margin-right: auto;
+  font-size: 2.2rem;
+  font-family: "Urbanist", sans-serif;
+  font-weight: 300;
+  color: hsla(200, 10%, 100%, 1);
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 0.75;
+  white-space: nowrap;
+}
+
+.navigation {
+  &__container {
+    padding: 0.8rem 0;
+    background-color: rgba(238, 238, 238, 0.8);
+    backdrop-filter: saturate(180%) blur(16px);
+  }
+
+  &__items {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-end;
+  }
+
+  &__item {
+    color: hsla(200, 10%, 0%, 1);
+
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+}

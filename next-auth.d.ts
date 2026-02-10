@@ -1,0 +1,8 @@
+import NextAuth from "next-auth";
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string;
+    lastTokenCheck?: number;
+  }
+}
