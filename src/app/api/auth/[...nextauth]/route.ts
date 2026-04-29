@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import type { AuthOptions } from "next-auth/core/types";
+import type { AuthOptions } from "next-auth";
 import Github from "next-auth/providers/github";
 
 import {

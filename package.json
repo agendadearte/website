@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix && prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "version": "auto-changelog -p -l false --sort-commits date-desc && git add CHANGELOG.md"
   },
   "keywords": [
     "agenda",
@@ -22,12 +23,16 @@
     "url": "https://github.com/agamdaz/agendadearte.git"
   },
   "license": "ISC",
+  "overrides": {
+    "postcss": "8.5.10",
+    "uuid": "14.0.0"
+  },
   "dependencies": {
     "@agendadearte/sketchbox": "^4.0.0",
     "html-react-parser": "^5.2.2",
     "leaflet": "^1.9.4",
-    "next": "^16.1.6",
-    "next-auth": "^4.24.13",
+    "next": "^16.2.4",
+    "next-auth": "^4.24.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
@@ -39,11 +44,12 @@
     "@types/leaflet": "^1.9.16",
     "@types/node": "24.0.13",
     "@types/react": "^19.0.8",
-    "eslint": "^9.39.2",
-    "eslint-config-next": "^16.1.1",
+    "auto-changelog": "^2.5.0",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "^16.1.6",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
-    "sass": "^1.85.1",
+    "sass": "^1.99.0",
     "typescript": "^5.8.2"
   }
 }

@@ -70,6 +70,16 @@
     }
   },
   {
+    "id": "gerhardt-braun",
+    "name": "Galería Gerhardt Braun",
+    "address": "Calle de Claudio Coello, 72 - 28001 Madrid",
+    "web": "https://gb-gallery.es",
+    "position": {
+      "latitude": 40.42935,
+      "longitude": -3.68589
+    }
+  },
+  {
     "id": "benveniste",
     "name": "Benveniste Contemporary",
     "address": "Calle de Nicolás Morales, 37 - 28019 Madrid",
@@ -163,7 +173,7 @@
     "id": "ehrhardtflorez",
     "name": "Galería Ehrhardt Flórez",
     "address": "Calle de San Lorenzo, 11 - 28004 Madrid",
-    "web": "https://ehrhardtflorez.com/",
+    "web": "https://ehrhardtflorez.com",
     "position": {
       "latitude": 40.42504,
       "longitude": -3.69867
@@ -263,7 +273,7 @@
     "id": "garna",
     "name": "Gärna Art Gallery",
     "address": "Callejón de Jorge Juan, 12 - 28001 Madrid",
-    "web": "https://garnaartgallery.com/",
+    "web": "https://garnaartgallery.com",
     "position": {
       "latitude": 40.42321,
       "longitude": -3.68617
@@ -290,10 +300,14 @@
     }
   },
   {
-    "id": "helga-alvear",
-    "name": "Galería Helga de Alvear",
+    "id": "hilario-galguera",
+    "name": "Galería Hilario Galguera",
     "address": "Calle del Doctor Fourquet, 12 - 28012 Madrid",
-    "web": "http://helgadealvear.com"
+    "web": "https://www.galeriahilariogalguera.com",
+    "position": {
+      "latitude": 40.40827,
+      "longitude": -3.69615
+    }
   },
   {
     "id": "jose-mano",
@@ -393,7 +407,11 @@
     "id": "moises-perez-albeniz",
     "name": "Galería Moisés Pérez de Albéniz",
     "address": "Calle del Doctor Fourquet, 20 - 28012 Madrid",
-    "web": "http://www.galeriampa.com"
+    "web": "http://www.galeriampa.com",
+    "position": {
+      "latitude": 40.40751,
+      "longitude": -3.69763
+    }
   },
   {
     "id": "nieves-fernandez",
@@ -424,6 +442,16 @@
     "name": "Parra & Romero Madrid",
     "address": "Calle de Claudio Coello, 14 - 28001 Madrid",
     "web": "http://www.parra-romero.com"
+  },
+  {
+    "id": "pedro-cera",
+    "name": "Pedro Cera",
+    "address": "Calle de Barceló, 13 - 28004 Madrid",
+    "web": "https://www.pedrocera.com",
+    "position": {
+      "latitude": 40.42702,
+      "longitude": -3.69936
+    }
   },
   {
     "id": "pilar-serra",
@@ -551,6 +579,16 @@
     "position": {
       "latitude": 40.4215877,
       "longitude": -3.6854958
+    }
+  },
+  {
+    "id": "xf-proyectos",
+    "name": "Xavier Fiol / XF Proyectos",
+    "address": "Calle de Mallorca, 9 - 28012 Madrid",
+    "web": "https://xfproyectos.net",
+    "position": {
+      "latitude": 40.40669,
+      "longitude": -3.69786
     }
   }
 ]

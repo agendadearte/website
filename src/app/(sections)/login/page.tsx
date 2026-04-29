@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 
 import { LogIn } from "./components/LogIn";
 
