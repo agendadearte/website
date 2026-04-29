@@ -23,12 +23,16 @@
     "url": "https://github.com/agamdaz/agendadearte.git"
   },
   "license": "ISC",
+  "overrides": {
+    "postcss": "8.5.10",
+    "uuid": "14.0.0"
+  },
   "dependencies": {
     "@agendadearte/sketchbox": "^4.0.0",
     "html-react-parser": "^5.2.2",
     "leaflet": "^1.9.4",
-    "next": "^16.1.6",
-    "next-auth": "^4.24.13",
+    "next": "^16.2.4",
+    "next-auth": "^4.24.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
@@ -45,7 +49,7 @@
     "eslint-config-next": "^16.1.6",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
-    "sass": "^1.97.3",
+    "sass": "^1.99.0",
     "typescript": "^5.8.2"
   }
 }
