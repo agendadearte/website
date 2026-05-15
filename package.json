@@ -24,14 +24,13 @@
   },
   "license": "ISC",
   "overrides": {
-    "postcss": "8.5.10",
-    "uuid": "14.0.0"
+    "postcss": "8.5.10"
   },
   "dependencies": {
     "@agendadearte/sketchbox": "^4.0.0",
     "html-react-parser": "^5.2.2",
     "leaflet": "^1.9.4",
-    "next": "^16.2.4",
+    "next": "^16.2.6",
     "next-auth": "^4.24.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
