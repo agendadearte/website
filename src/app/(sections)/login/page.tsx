@@ -2,25 +2,22 @@ import type { Metadata } from "next";
 
 import { LogIn } from "./components/LogIn";
 
-export const metadata: Metadata = {
-  title: "Agenda de Arte - Registro",
-};
+const PAGE_TITLE = "Registro";
+
+export const metadata: Metadata = { title: PAGE_TITLE };
 
 export default async function LoginPage({ searchParams }) {
   const { error } = await searchParams;
 
   return (
-    <>
-      <title>Agenda de Arte - Login</title>
-      <article>
-        <header>
-          <h1>Login</h1>
-        </header>
-        <section>
-          <h2>{error}</h2>
-          <LogIn />
-        </section>
-      </article>
-    </>
+    <article>
+      <header>
+        <h1>{PAGE_TITLE}</h1>
+      </header>
+      <section>
+        <h2>{error}</h2>
+        <LogIn />
+      </section>
+    </article>
   );
 }

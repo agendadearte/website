@@ -1,6 +1,11 @@
+import { Metadata } from "next";
 import { buildEventsService, ILocation } from "@/lib/services";
 import { MapWrapper } from "./components/MapWrapper";
 import styles from "./places.module.scss";
+
+const PAGE_TITLE = "Lugares";
+
+export const metadata: Metadata = { title: PAGE_TITLE };
 
 export default async function PlacesPage() {
   const eventsService = buildEventsService();
@@ -8,8 +13,7 @@ export default async function PlacesPage() {
 
   return (
     <>
-      <title>Agenda de Arte - Lugares</title>
-      <h1>Lugares</h1>
+      <h1>{PAGE_TITLE}</h1>
       <MapWrapper locations={locations} />
       <ul className={styles.list__container}>
         {locations.map((location) => (

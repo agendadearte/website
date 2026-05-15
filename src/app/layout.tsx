@@ -8,8 +8,12 @@ import "./global.scss";
 import styles from "./layout.module.scss";
 
 export const metadata: Metadata = {
-  title: "Agenda de Arte",
+  title: {
+    default: "Agenda de Arte",
+    template: "%s | Agenda de Arte",
+  },
   description: "Agenda de arte de la Comunidad de Madrid",
+  metadataBase: new URL("https://agendadearte.com"),
 };
 
 export const viewport: Viewport = {
@@ -26,7 +30,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title></title>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
           rel="stylesheet"

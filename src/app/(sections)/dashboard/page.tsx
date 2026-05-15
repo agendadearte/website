@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { LogOut } from "./components/LogOut";
 
-export const metadata: Metadata = {
-  title: "Agenda de Arte - Panel de control",
-};
+const PAGE_TITLE = "Panel de control";
+
+export const metadata: Metadata = { title: PAGE_TITLE };
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -15,19 +15,16 @@ export default async function DashboardPage() {
   if (!session) redirect("/login");
 
   return (
-    <>
-      <title>Agenda de Arte - Dashboard</title>
-      <article>
-        <header>
-          <h1>Dashboard</h1>
-        </header>
-        <section>
-          <p>
-            <code>Loged user: {session.user?.name}</code>
-          </p>
-          <LogOut />
-        </section>
-      </article>
-    </>
+    <article>
+      <header>
+        <h1>{PAGE_TITLE}</h1>
+      </header>
+      <section>
+        <p>
+          <code>Loged user: {session.user?.name}</code>
+        </p>
+        <LogOut />
+      </section>
+    </article>
   );
 }

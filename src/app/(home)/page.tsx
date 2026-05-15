@@ -5,9 +5,9 @@ import { Card } from "@agendadearte/sketchbox";
 import { buildEventsService, IEvent } from "@/lib/services";
 import { MasonryWrapper } from "./components/Masonry";
 
-export const metadata: Metadata = {
-  title: "Agenda de Arte - Eventos",
-};
+const PAGE_TITLE = "Eventos";
+
+export const metadata: Metadata = { title: PAGE_TITLE };
 
 export const revalidate = 86400; // invalidate every day
 
