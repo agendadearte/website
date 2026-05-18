@@ -7,7 +7,7 @@ module.exports = {
       },
       {
         source: "/lugares",
-        destination: "/places",
+        destination: "/venues",
       },
     ];
   },

@@ -1,3 +1,5 @@
+import type { Venue, VenueRaw } from "@/types";
+
 export type IEventDates = {
   initialString: string;
   initialUTF: string;
@@ -22,3 +24,19 @@ export const eventDates = (
   finalString: localeToString(finalDate),
   finalUTF: localeToUTF(finalDate),
 });
+
+export function normalizeLocation(loc: VenueRaw): Venue {
+  const { position, ...props } = loc;
+
+  return {
+    ...props,
+    ...(position?.lat != null && position?.lng != null
+      ? {
+          position: {
+            lat: position.lat,
+            lng: position.lng,
+          },
+        }
+      : {}),
+  } satisfies Venue;
+}

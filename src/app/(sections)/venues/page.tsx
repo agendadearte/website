@@ -1,24 +1,24 @@
 import { Metadata } from "next";
-import { buildEventsService, ILocation } from "@/lib/services";
+import { buildEventsService } from "@/lib/services";
 import { MapWrapper } from "./components/MapWrapper";
-import styles from "./places.module.scss";
+import styles from "./styles.module.scss";
 
 const PAGE_TITLE = "Lugares";
 
 export const metadata: Metadata = { title: PAGE_TITLE };
 
-export default async function PlacesPage() {
+export default async function VenuesPage() {
   const eventsService = buildEventsService();
-  const locations: ILocation[] = await eventsService.getAllLocations();
+  const venues = await eventsService.getAllVenues();
 
   return (
     <>
       <h1>{PAGE_TITLE}</h1>
-      <MapWrapper locations={locations} />
+      <MapWrapper venues={venues} />
       <ul className={styles.list__container}>
-        {locations.map((location) => (
-          <li key={`${location.id}-details`} className={styles.list__item}>
-            <h3 className={styles.list__title}>{location.name}</h3>
+        {venues.map((venue) => (
+          <li key={`${venue.id}-details`} className={styles.list__item}>
+            <h3 className={styles.list__title}>{venue.name}</h3>
             <div className={styles.list__address}>
               <i
                 className={`material-icons-outlined ${styles.icon}`}
@@ -26,7 +26,7 @@ export default async function PlacesPage() {
               >
                 place
               </i>
-              <address>{location.address}</address>
+              <address>{venue.address}</address>
             </div>
             <div className={styles.list__web}>
               <i
@@ -35,8 +35,8 @@ export default async function PlacesPage() {
               >
                 link
               </i>
-              <a href={location.web} target="_blank" rel="noreferrer">
-                {location.web}
+              <a href={venue.web} target="_blank" rel="noreferrer">
+                {venue.web}
               </a>
             </div>
           </li>

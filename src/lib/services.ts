@@ -1,5 +1,7 @@
 import { promises as fs } from "fs";
 import { eventDates, IEventDates } from "@/lib/adapters";
+import { getVenuesBlob } from "@/lib/blob";
+import { Venue, Venues } from "@/types/venues";
 
 const today = Math.round(new Date().getTime() / 1000);
 
@@ -14,22 +16,13 @@ export type IEvent = {
 } & IEventDates;
 
 type ISingleEvent = Omit<IEvent, "location"> & {
-  location: ILocation;
-};
-
-export type ILocation = {
-  id: string;
-  name: string;
-  address: string;
-  web: string;
-  position?: {
-    lat: number;
-    lng: number;
-  };
+  location: Venue;
+  location: Venue;
 };
 
 const eventsStore: IEvent[] = [];
-const locationsStore: ILocation[] = [];
+let venuesStore: Venues = [];
+let venuesStore: Venues = [];
 
 type IEventsResponse = {
   id: string;
@@ -63,45 +56,22 @@ async function getAllEvents(): Promise<IEvent[]> {
   return eventsStore;
 }
 
-type LocationsResponse = {
-  id: string;
-  name: string;
-  address: string;
-  web: string;
-  position?: {
-    latitude?: number;
-    longitude?: number;
-  };
-}[];
-
-async function getAllLocations(): Promise<ILocation[]> {
-  if (locationsStore.length) return locationsStore;
-
-  const path = process.cwd() + "/src/data/locations.json";
-  const file = await fs.readFile(path, "utf8");
-  const locations: LocationsResponse = JSON.parse(file);
-
-  locations.forEach((loc) => {
-    const { position, ...props } = loc;
-    const location: ILocation = props;
-    if (position?.latitude && position?.longitude)
-      location.position = {
-        lat: position.latitude,
-        lng: position.longitude,
-      };
-    locationsStore.push(location);
-  });
-  return locationsStore;
+async function getAllVenues(): Promise<Venues> {
+  if (venuesStore.length) return venuesStore;
+  venuesStore = await getVenuesBlob();
+  return venuesStore;
 }
 
 async function getSingleEvent(id: string): Promise<ISingleEvent | null> {
   await getAllEvents();
-  await getAllLocations();
+  await getAllVenues();
+  await getAllVenues();
 
   const event = eventsStore.find((event) => event.id === id);
   if (!event) return null;
 
-  const location = locationsStore.find((loc) => loc.id === event.location);
+  const location = venuesStore.find((loc) => loc.id === event.location);
+  const location = venuesStore.find((loc) => loc.id === event.location);
   if (!location) return null;
 
   return { ...event, location };
@@ -110,7 +80,8 @@ async function getSingleEvent(id: string): Promise<ISingleEvent | null> {
 export function buildEventsService() {
   return {
     getAllEvents,
-    getAllLocations,
+    getAllVenues,
+    getAllVenues,
     getSingleEvent,
   };
 }

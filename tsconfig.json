@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/app/*": ["./src/app/*"],
-      "@/components": ["./src/components/index.ts"],
-      "@/lib/*": ["./src/lib/*"]
+      "@/*": ["src/*"]
     },
+    "ignoreDeprecations": "6.0",
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
