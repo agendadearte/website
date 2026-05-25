@@ -24,7 +24,7 @@ function cleanDescription(html: string, maxLength = 160) {
 
 async function getEvent(id: string) {
   const eventsService = buildEventsService();
-  const event = await eventsService.getSingleEvent(id);
+  const event = await eventsService.getEventDetails(id);
 
   if (!event) {
     notFound();
@@ -81,9 +81,9 @@ export default async function EventPage({ params }: EventProps) {
                 place
               </i>
               <address className={styles.address}>
-                {event.location.name}
+                {event.venue.name}
                 <br />
-                <small>{event.location.address}</small>
+                <small>{event.venue.address}</small>
               </address>
             </li>
             <li>
@@ -106,8 +106,8 @@ export default async function EventPage({ params }: EventProps) {
               >
                 link
               </i>
-              <a href={event.location.web} target="_blank" rel="noreferrer">
-                {event.location.web}
+              <a href={event.venue.web} target="_blank" rel="noreferrer">
+                {event.venue.web}
               </a>
             </li>
           </ul>

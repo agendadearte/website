@@ -1,5 +1,5 @@
 import { get } from "@vercel/blob";
-import type { Events, VenueRaw } from "@/types";
+import type { EventRaw, VenueRaw } from "@/types";
 
 const BLOB_PATHS = {
   venues: process.env.BLOB_VENUES_URL,
@@ -42,6 +42,6 @@ export async function getVenuesBlob(): Promise<VenueRaw[]> {
   return getBlobJson<VenueRaw[]>(getBlobPath("venues"));
 }
 
-export async function getEventsBlob(): Promise<Events> {
-  return getBlobJson<Events>(getBlobPath("events"));
+export async function getEventsBlob(): Promise<EventRaw[]> {
+  return getBlobJson<EventRaw[]>(getBlobPath("events"));
 }

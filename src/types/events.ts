@@ -1,12 +1,27 @@
-export interface Event {
+import { Venue } from "@/types/venues";
+
+export interface EventRaw {
   id: string;
   title: string;
   author: string;
-  initial_date: number;
-  final_date: number;
+  initialDate: number;
+  finalDate: number;
   images: string[];
   description: string;
-  location: string;
+  venueId: string;
 }
 
+export interface EventDates {
+  initialString: string;
+  initialUTF: string;
+  finalString: string;
+  finalUTF: string;
+}
+
+export type Event = Omit<EventRaw, "initialDate" | "finalDate"> & EventDates;
+
 export type Events = Event[];
+
+export type EventDetails = Omit<Event, "venueId"> & {
+  venue: Venue;
+};
