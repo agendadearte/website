@@ -18,7 +18,7 @@ export interface EventDates {
   finalUTF: string;
 }
 
-export type Event = Omit<EventRaw, "initialDate" | "finalDate"> & EventDates;
+export type Event = EventRaw & EventDates;
 
 export type Events = Event[];
 

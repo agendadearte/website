@@ -16,7 +16,8 @@ async function getAllEvents(): Promise<Events> {
 
   eventsCache = raw
     .filter((event) => event.finalDate > today)
-    .map(normalizeEvent);
+    .map(normalizeEvent)
+    .sort((a, b) => a.finalDate - b.finalDate);
 
   return eventsCache;
 }

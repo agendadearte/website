@@ -9,9 +9,8 @@ const localeToString = (date: number) =>
 const localeToUTF = (date: number) => parseDate(date);
 
 export function normalizeEvent(event: EventRaw): Event {
-  const { initialDate, finalDate, ...restProps } = event;
   return {
-    ...restProps,
+    ...event,
     initialString: localeToString(event.initialDate),
     initialUTF: localeToUTF(event.initialDate),
     finalString: localeToString(event.finalDate),
