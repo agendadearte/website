@@ -1,21 +1,17 @@
 import { get } from "@vercel/blob";
 import type { EventRaw, VenueRaw } from "@/types";
 
+const BLOB_BASE_URL = process.env.BLOB_BASE_URL!;
+
 const BLOB_PATHS = {
-  venues: process.env.BLOB_VENUES_URL,
-  events: process.env.BLOB_EVENTS_URL,
+  venues: "venues.json",
+  events: "events.json",
 } as const;
 
 type BlobKey = keyof typeof BLOB_PATHS;
 
 function getBlobPath(key: BlobKey): string {
-  const value = BLOB_PATHS[key];
-
-  if (!value) {
-    throw new Error(`Missing environment variable for ${key}`);
-  }
-
-  return value;
+  return `${BLOB_BASE_URL}/${BLOB_PATHS[key]}`;
 }
 
 async function getBlobStream(path: string) {

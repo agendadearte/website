@@ -9,6 +9,10 @@ module.exports = {
         source: "/lugares",
         destination: "/venues",
       },
+      {
+        source: "/images/:path*",
+        destination: `${process.env.BLOB_BASE_URL}/images/:path*`,
+      },
     ];
   },
 };

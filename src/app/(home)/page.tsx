@@ -17,22 +17,22 @@ export default async function HomePage() {
 
   return (
     <MasonryWrapper>
-      {events.map((date) => (
+      {events.map((event) => (
         <Link
-          key={date.id}
-          href={`/evento/${date.id}`}
+          key={event.id}
+          href={`/evento/${event.id}`}
           style={{ textDecoration: "none" }}
         >
           <Card
-            title={date.title}
-            author={date.author}
+            title={event.title}
+            author={event.author}
             dates={{
-              initialString: date.initialString,
-              initialUTF: date.initialUTF,
-              finalString: date.finalString,
-              finalUTF: date.finalUTF,
+              initialString: event.initialString,
+              initialUTF: event.initialUTF,
+              finalString: event.finalString,
+              finalUTF: event.finalUTF,
             }}
-            images={date.images}
+            images={event.images}
           />
         </Link>
       ))}

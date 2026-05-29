@@ -8,6 +8,8 @@ const localeToString = (date: number) =>
 
 const localeToUTF = (date: number) => parseDate(date);
 
+const toImageUrl = (image: string) => `/images/${image}`;
+
 export function normalizeEvent(event: EventRaw): Event {
   return {
     ...event,
@@ -15,5 +17,6 @@ export function normalizeEvent(event: EventRaw): Event {
     initialUTF: localeToUTF(event.initialDate),
     finalString: localeToString(event.finalDate),
     finalUTF: localeToUTF(event.finalDate),
+    images: event.images.map(toImageUrl),
   };
 }
