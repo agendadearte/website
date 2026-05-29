@@ -6,7 +6,11 @@ const PAGE_TITLE = "Registro";
 
 export const metadata: Metadata = { title: PAGE_TITLE };
 
-export default async function LoginPage({ searchParams }) {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   const { error } = await searchParams;
 
   return (

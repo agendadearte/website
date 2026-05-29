@@ -12,7 +12,7 @@ const breakpointColumns = {
   375: 1,
 };
 
-export const MasonryWrapper = ({ children }) => (
+export const MasonryWrapper = ({ children }: { children: React.ReactNode }) => (
   <Masonry
     columnClassName={styles.columns}
     breakpointCols={breakpointColumns}
