@@ -9,7 +9,7 @@ const PAGE_TITLE = "Eventos";
 
 export const metadata: Metadata = { title: PAGE_TITLE };
 
-export const revalidate = 86400; // invalidate every day
+export const revalidate = 3600; // every hour
 
 export default async function HomePage() {
   const eventsService = buildEventsService();
@@ -28,9 +28,9 @@ export default async function HomePage() {
             author={event.author}
             dates={{
               initialString: event.initialString,
-              initialUTF: event.initialUTF,
+              initialUTF: event.initialDate,
               finalString: event.finalString,
-              finalUTF: event.finalUTF,
+              finalUTF: event.finalDate,
             }}
             images={event.images}
           />

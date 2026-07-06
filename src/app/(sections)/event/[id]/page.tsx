@@ -95,8 +95,8 @@ export default async function EventPage({ params }: EventProps) {
               </i>
               <span>
                 Del{" "}
-                <time dateTime={event.initialUTF}>{event.initialString}.</time>{" "}
-                al <time dateTime={event.finalUTF}>{event.finalString}.</time>
+                <time dateTime={event.initialDate}>{event.initialString}.</time>{" "}
+                al <time dateTime={event.finalDate}>{event.finalString}.</time>
               </span>
             </li>
             <li>

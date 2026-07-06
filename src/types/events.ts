@@ -4,8 +4,8 @@ export interface EventRaw {
   id: string;
   title: string;
   author: string;
-  initialDate: number;
-  finalDate: number;
+  initialDate: string;
+  finalDate: string;
   images: string[];
   description: string;
   venueId: string;
@@ -13,9 +13,7 @@ export interface EventRaw {
 
 export interface EventDates {
   initialString: string;
-  initialUTF: string;
   finalString: string;
-  finalUTF: string;
 }
 
 export type Event = EventRaw & EventDates;

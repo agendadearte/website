@@ -3,7 +3,10 @@ import { getEventsBlob, getVenuesBlob } from "@/lib/blob";
 import type { EventDetails, Events } from "@/types/events";
 import type { Venue, Venues } from "@/types/venues";
 
-const today = Math.round(Date.now() / 1000);
+const todayInMadrid = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Madrid",
+  }).format(new Date());
 
 let eventsCache: Events = [];
 let venuesCache: Venues = [];
@@ -12,12 +15,13 @@ let venuesById = new Map<string, Venue>();
 async function getAllEvents(): Promise<Events> {
   if (eventsCache.length) return eventsCache;
 
+  const today = todayInMadrid();
   const raw = await getEventsBlob();
 
   eventsCache = raw
-    .filter((event) => event.finalDate > today)
-    .map(normalizeEvent)
-    .sort((a, b) => a.finalDate - b.finalDate);
+    .filter((event) => event.finalDate >= today)
+    .sort((a, b) => a.finalDate.localeCompare(b.finalDate))
+    .map(normalizeEvent);
 
   return eventsCache;
 }
