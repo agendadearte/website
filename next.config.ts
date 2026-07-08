@@ -7,7 +7,11 @@ module.exports = {
       },
       {
         source: "/lugares",
-        destination: "/places",
+        destination: "/venues",
+      },
+      {
+        source: "/images/:path*",
+        destination: `${process.env.BLOB_BASE_URL}/images/:path*`,
       },
     ];
   },

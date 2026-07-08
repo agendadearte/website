@@ -9,7 +9,7 @@ import "react-leaflet-markercluster/styles";
 import "./custom.css";
 
 export type MapProps = {
-  locations: {
+  venues: {
     id: string;
     name: string;
     address: string;
@@ -26,7 +26,7 @@ const marker = icon({
   popupAnchor: [0, -30],
 });
 
-export default function LeafletMap({ locations }: MapProps) {
+export default function LeafletMap({ venues }: MapProps) {
   return (
     <MapContainer
       center={[40.4284, -3.70815]}
@@ -45,7 +45,7 @@ export default function LeafletMap({ locations }: MapProps) {
         url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png"
       />
       <MarkerClusterGroup showCoverageOnHover={false} maxClusterRadius={40}>
-        {locations.map(({ id, name, address, web, position }) => {
+        {venues.map(({ id, name, address, web, position }) => {
           if (!position) return null;
           return (
             <Marker key={`${id}-marker`} position={position} icon={marker}>

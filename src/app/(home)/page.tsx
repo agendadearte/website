@@ -2,37 +2,37 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Card } from "@agendadearte/sketchbox";
 
-import { buildEventsService, IEvent } from "@/lib/services";
+import { buildEventsService } from "@/lib/services";
 import { MasonryWrapper } from "./components/Masonry";
 
-export const metadata: Metadata = {
-  title: "Agenda de Arte - Eventos",
-};
+const PAGE_TITLE = "Eventos";
 
-export const revalidate = 86400; // invalidate every day
+export const metadata: Metadata = { title: PAGE_TITLE };
+
+export const revalidate = 3600; // every hour
 
 export default async function HomePage() {
   const eventsService = buildEventsService();
-  const dates: IEvent[] = await eventsService.getAllEvents();
+  const events = await eventsService.getAllEvents();
 
   return (
     <MasonryWrapper>
-      {dates.map((date) => (
+      {events.map((event) => (
         <Link
-          key={date.id}
-          href={`/evento/${date.id}`}
+          key={event.id}
+          href={`/evento/${event.id}`}
           style={{ textDecoration: "none" }}
         >
           <Card
-            title={date.title}
-            author={date.author}
+            title={event.title}
+            author={event.author}
             dates={{
-              initialString: date.initialString,
-              initialUTF: date.initialUTF,
-              finalString: date.finalString,
-              finalUTF: date.finalUTF,
+              initialString: event.initialString,
+              initialUTF: event.initialDate,
+              finalString: event.finalString,
+              finalUTF: event.finalDate,
             }}
-            images={date.images}
+            images={event.images}
           />
         </Link>
       ))}
