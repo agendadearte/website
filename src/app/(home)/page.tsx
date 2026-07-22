@@ -13,7 +13,7 @@ export const revalidate = 3600; // every hour
 
 export default async function HomePage() {
   const eventsService = buildEventsService();
-  const events = await eventsService.getAllEvents();
+  const events = await eventsService.getActiveEvents();
 
   return (
     <MasonryWrapper>
