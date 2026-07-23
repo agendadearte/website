@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Events } from "@/types/events";
 import type { Venue } from "@/types/venues";
+import { EventRow } from "./EventRow";
 
 type DashboardProps = {
   initialEvents: Events;
@@ -10,12 +11,22 @@ type DashboardProps = {
   venuesById: Map<string, Venue>;
 };
 
+const STORAGE_KEY = "agenda-de-arte.events.draft";
+
 export const Dashboard = ({
   initialEvents,
   today,
   venuesById,
 }: DashboardProps) => {
-  const [events] = useState(initialEvents);
+  const [events] = useState<Events>(() => {
+    if (typeof window === "undefined") {
+      return initialEvents;
+    }
+
+    const storedDraft = localStorage.getItem(STORAGE_KEY);
+
+    return storedDraft ? JSON.parse(storedDraft) : initialEvents;
+  });
 
   return (
     <table className="table table-striped">
@@ -32,34 +43,13 @@ export const Dashboard = ({
         {events.map((event) => {
           const isOutdated = event.finalDate < today;
           const venue = venuesById.get(event.venueId);
-
           return (
-            <tr key={event.id} className={isOutdated ? "table-danger" : ""}>
-              <td>{event.title}</td>
-              <td>{event.finalDate}</td>
-              <td>
-                <a href={venue?.web} target="_blank" rel="noopener noreferrer">
-                  {venue?.name}
-                </a>
-              </td>
-              <td>{event.images}</td>
-              <td className="d-flex gap-2">
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className={`btn btn-sm ${
-                    isOutdated ? "btn-danger" : "btn-outline-secondary"
-                  }`}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            <EventRow
+              key={event.id}
+              event={event}
+              isOutdated={isOutdated}
+              venue={venue}
+            />
           );
         })}
       </tbody>
