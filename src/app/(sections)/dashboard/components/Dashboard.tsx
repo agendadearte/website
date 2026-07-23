@@ -18,15 +18,47 @@ export const Dashboard = ({
   today,
   venuesById,
 }: DashboardProps) => {
-  const [events] = useState<Events>(() => {
-    if (typeof window === "undefined") {
-      return initialEvents;
+  const [events, setEvents] = useState(initialEvents);
+  const [draftLoaded, setDraftLoaded] = useState(false);
+
+  const handleRemoveEvent = (id: string) => {
+    setEvents((events) => events.filter((event) => event.id !== id));
+  };
+
+  useEffect(() => {
+    if (!draftLoaded) return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  }, [events, draftLoaded]);
+
+  useEffect(() => {
+    try {
+      const draftSaved = localStorage.getItem(STORAGE_KEY);
+
+      if (!draftSaved) {
+        setEvents(initialEvents);
+        return;
+      }
+
+      const draft = JSON.parse(draftSaved);
+
+      if (!Array.isArray(draft)) {
+        localStorage.removeItem(STORAGE_KEY);
+        setEvents(initialEvents);
+        return;
+      }
+
+      setEvents(draft);
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+      setEvents(initialEvents);
+    } finally {
+      setDraftLoaded(true);
     }
+  }, [initialEvents]);
 
-    const storedDraft = localStorage.getItem(STORAGE_KEY);
-
-    return storedDraft ? JSON.parse(storedDraft) : initialEvents;
-  });
+  if (!draftLoaded) {
+    return <p>Loading draft…</p>;
+  }
 
   return (
     <table className="table table-striped">
@@ -49,6 +81,7 @@ export const Dashboard = ({
               event={event}
               isOutdated={isOutdated}
               venue={venue}
+              onRemove={handleRemoveEvent}
             />
           );
         })}

@@ -5,9 +5,15 @@ type EventRowProps = {
   event: Event;
   isOutdated: boolean;
   venue?: Venue;
+  onRemove(id: string): void;
 };
 
-export const EventRow = ({ event, isOutdated, venue }: EventRowProps) => (
+export const EventRow = ({
+  event,
+  isOutdated,
+  venue,
+  onRemove,
+}: EventRowProps) => (
   <tr className={isOutdated ? "table-danger" : ""}>
     <td>{event.title}</td>
     <td>{event.finalDate}</td>
@@ -26,8 +32,9 @@ export const EventRow = ({ event, isOutdated, venue }: EventRowProps) => (
       <button
         type="button"
         className={`btn btn-sm ${isOutdated ? "btn-danger" : "btn-outline-secondary"}`}
+        onClick={() => onRemove(event.id)}
       >
-        Delete
+        Remove
       </button>
     </td>
   </tr>
