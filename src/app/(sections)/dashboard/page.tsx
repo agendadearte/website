@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { buildEventsService } from "@/lib/services";
 import { todayInMadrid } from "@/lib/dates";
-import { LogOut } from "./components/LogOut";
+import { Dashboard, LogOut } from "./components";
 
 const PAGE_TITLE = "Panel de control";
 
@@ -21,8 +21,8 @@ export default async function DashboardPage() {
   const events = await eventsService.getAllEvents();
   const venues = await eventsService.getAllVenues();
 
-  const venuesById = new Map(venues.map((venue) => [venue.id, venue]));
   const today = todayInMadrid();
+  const venuesById = new Map(venues.map((venue) => [venue.id, venue]));
 
   return (
     <article>
@@ -34,52 +34,11 @@ export default async function DashboardPage() {
         </div>
       </header>
       <section>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">End</th>
-              <th scope="col">Venue</th>
-              <th scope="col">Images</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((event) => {
-              const isOutdated = event.finalDate < today;
-              const venue = venuesById.get(event.venueId);
-
-              return (
-                <tr key={event.id} className={isOutdated ? "table-danger" : ""}>
-                  <td>{event.title}</td>
-                  <td>{event.finalDate}</td>
-                  <td>
-                    <a href={venue?.web} target="_blank">
-                      {venue?.name}
-                    </a>
-                  </td>
-                  <td>{event.images}</td>
-                  <td className="d-flex gap-2">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className={`btn btn-sm ${
-                        isOutdated ? "btn-danger" : "btn-outline-secondary"
-                      }`}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Dashboard
+          initialEvents={events}
+          today={today}
+          venuesById={venuesById}
+        />
       </section>
     </article>
   );
