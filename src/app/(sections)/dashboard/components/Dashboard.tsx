@@ -62,7 +62,7 @@ export const Dashboard = ({
 
   return (
     <table className="table table-striped">
-      <thead>
+      <thead className="table__head">
         <tr>
           <th scope="col">Title</th>
           <th scope="col">End</th>

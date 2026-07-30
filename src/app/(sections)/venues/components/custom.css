@@ -1,3 +1,8 @@
+.leaflet-container {
+  flex-shrink: 0;
+  height: var(--venues-map-height);
+}
+
 .leaflet-container .leaflet-control-attribution {
   color: #fff;
   background-color: #000;

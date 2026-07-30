@@ -4,8 +4,8 @@ import type { Metadata, Viewport } from "next";
 import { getStyles } from "typestyle";
 import { AppBar, Container } from "@agendadearte/sketchbox";
 
-import "./global.scss";
-import styles from "./layout.module.scss";
+import "./variables.scss";
+import "./layout.scss";
 
 export const metadata: Metadata = {
   title: {
@@ -37,9 +37,9 @@ export default async function RootLayout({
         <style>{getStyles()}</style>
       </head>
       <body>
-        <div className={styles.header}>
+        <div className="main-header">
           <AppBar>
-            <Link href="/" className={styles.logo}>
+            <Link href="/" className="app-logo">
               <Image
                 alt="Logo Agenda de Arte"
                 src="/images/logo-header.svg"
@@ -49,18 +49,18 @@ export default async function RootLayout({
               Agenda de Arte
             </Link>
           </AppBar>
-          <nav className={styles.navigation__container}>
+          <nav className="navigation__container">
             <Container>
-              <div className={styles.navigation__items}>
-                <Link className={styles.navigation__item} href="/">
+              <div className="navigation__items">
+                <Link className="navigation__item" href="/">
                   Eventos
                 </Link>
-                <Link className={styles.navigation__item} href="/lugares">
+                <Link className="navigation__item" href="/lugares">
                   Lugares
                 </Link>
                 <a
                   href="mailto:info@agendadearte.com"
-                  className={styles.navigation__item}
+                  className="navigation__item"
                 >
                   info@agendadearte.com
                 </a>

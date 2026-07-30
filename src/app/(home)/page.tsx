@@ -5,6 +5,8 @@ import { Card } from "@agendadearte/sketchbox";
 import { buildEventsService } from "@/lib/services";
 import { MasonryWrapper } from "./components/Masonry";
 
+import "./styles.scss";
+
 const PAGE_TITLE = "Eventos";
 
 export const metadata: Metadata = { title: PAGE_TITLE };

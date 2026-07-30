@@ -7,6 +7,8 @@ import { buildEventsService } from "@/lib/services";
 import { todayInMadrid } from "@/lib/dates";
 import { Dashboard, LogOut } from "./components";
 
+import "./styles.scss";
+
 const PAGE_TITLE = "Panel de control";
 
 export const metadata: Metadata = { title: PAGE_TITLE };
@@ -25,15 +27,15 @@ export default async function DashboardPage() {
   const venuesById = new Map(venues.map((venue) => [venue.id, venue]));
 
   return (
-    <article>
-      <header className="d-flex justify-content-between align-items-center">
-        <h1>{PAGE_TITLE}</h1>
+    <article className="page-content">
+      <header className="page-header">
+        <h1 className="page-title">{PAGE_TITLE}</h1>
         <div className="d-flex gap-3 align-items-center">
           <p className="mb-0">Loged user: {session.user?.name}</p>
           <LogOut />
         </div>
       </header>
-      <section>
+      <section className="dashboard__container">
         <Dashboard
           initialEvents={events}
           today={today}

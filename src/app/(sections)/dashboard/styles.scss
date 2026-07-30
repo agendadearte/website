@@ -1,0 +1,17 @@
+.dashboard__container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table__head th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+  }
+}
