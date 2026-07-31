@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Events } from "@/types/events";
 import type { Venue } from "@/types/venues";
 import { EventRow } from "./EventRow";
+import { Footer } from "./Footer";
 
 type DashboardProps = {
   initialEvents: Events;
@@ -21,14 +22,20 @@ export const Dashboard = ({
   const [events, setEvents] = useState(initialEvents);
   const [draftLoaded, setDraftLoaded] = useState(false);
 
+  const isDirty = JSON.stringify(events) !== JSON.stringify(initialEvents);
+
   const handleRemoveEvent = (id: string) => {
     setEvents((events) => events.filter((event) => event.id !== id));
   };
 
-  useEffect(() => {
-    if (!draftLoaded) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  }, [events, draftLoaded]);
+  const handleReset = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setEvents(initialEvents);
+  };
+
+  const handleUpdate = () => {
+    console.log("Update clicked", events);
+  };
 
   useEffect(() => {
     try {
@@ -56,36 +63,47 @@ export const Dashboard = ({
     }
   }, [initialEvents]);
 
+  useEffect(() => {
+    if (!draftLoaded) return;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  }, [events, draftLoaded]);
+
   if (!draftLoaded) {
     return <p>Loading draft…</p>;
   }
 
   return (
-    <table className="table table-striped">
-      <thead className="table__head">
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">End</th>
-          <th scope="col">Venue</th>
-          <th scope="col">Images</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {events.map((event) => {
-          const isOutdated = event.finalDate < today;
-          const venue = venuesById.get(event.venueId);
-          return (
-            <EventRow
-              key={event.id}
-              event={event}
-              isOutdated={isOutdated}
-              venue={venue}
-              onRemove={handleRemoveEvent}
-            />
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      <section className="dashboard__container">
+        <table className="table table-striped">
+          <thead className="table__head">
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">End</th>
+              <th scope="col">Venue</th>
+              <th scope="col">Images</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((event) => {
+              const isOutdated = event.finalDate < today;
+              const venue = venuesById.get(event.venueId);
+              return (
+                <EventRow
+                  key={event.id}
+                  event={event}
+                  isOutdated={isOutdated}
+                  venue={venue}
+                  onRemove={handleRemoveEvent}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </section>
+      <Footer isDirty={isDirty} onReset={handleReset} onUpdate={handleUpdate} />
+    </>
   );
 };

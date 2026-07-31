@@ -5,7 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { buildEventsService } from "@/lib/services";
 import { todayInMadrid } from "@/lib/dates";
-import { Dashboard, LogOut } from "./components";
+import { Dashboard } from "./components/Dashboard";
+import { LogOut } from "./components/LogOut";
 
 import "./styles.scss";
 
@@ -35,13 +36,7 @@ export default async function DashboardPage() {
           <LogOut />
         </div>
       </header>
-      <section className="dashboard__container">
-        <Dashboard
-          initialEvents={events}
-          today={today}
-          venuesById={venuesById}
-        />
-      </section>
+      <Dashboard initialEvents={events} today={today} venuesById={venuesById} />
     </article>
   );
 }
