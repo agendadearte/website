@@ -1,8 +1,8 @@
-import { normalizeEvent } from "@/lib/adapters";
-import { getEventsBlob, getVenuesBlob } from "@/lib/blob";
-import { todayInMadrid } from "@/lib/dates";
 import type { EventDetails, Events } from "@/types/events";
 import type { Venue, Venues } from "@/types/venues";
+import { normalizeEvent } from "@/lib/adapters";
+import { getEventsBlob, getVenuesBlob, putEventsBlob } from "@/lib/blob";
+import { todayInMadrid } from "@/lib/dates";
 
 let eventsCache: Events = [];
 let venuesCache: Venues = [];
@@ -31,9 +31,6 @@ async function getAllVenues(): Promise<Venues> {
   if (venuesCache.length) return venuesCache;
 
   venuesCache = await getVenuesBlob();
-
-  venuesCache = [...venuesCache];
-
   venuesById = new Map(venuesCache.map((venue) => [venue.id, venue]));
 
   return venuesCache;
@@ -54,11 +51,20 @@ async function getEventDetails(id: string): Promise<EventDetails | null> {
   };
 }
 
+async function updateEvents(events: Events): Promise<void> {
+  await putEventsBlob(events);
+
+  eventsCache = events;
+
+  return;
+}
+
 export function buildEventsService() {
   return {
     getAllEvents,
     getActiveEvents,
     getAllVenues,
     getEventDetails,
+    updateEvents,
   };
 }

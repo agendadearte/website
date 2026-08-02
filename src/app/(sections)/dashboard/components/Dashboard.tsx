@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import type { Events } from "@/types/events";
 import type { Venue } from "@/types/venues";
+import { updateEventsAction } from "@/app/actions/dashboard";
 import { EventRow } from "./EventRow";
 import { Footer } from "./Footer";
 
@@ -21,6 +23,7 @@ export const Dashboard = ({
 }: DashboardProps) => {
   const [events, setEvents] = useState(initialEvents);
   const [draftLoaded, setDraftLoaded] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const isDirty = JSON.stringify(events) !== JSON.stringify(initialEvents);
 
@@ -33,8 +36,19 @@ export const Dashboard = ({
     setEvents(initialEvents);
   };
 
-  const handleUpdate = () => {
-    console.log("Update clicked", events);
+  const handleUpdate = async () => {
+    setIsUpdating(true);
+
+    try {
+      await updateEventsAction(events);
+
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.error(error);
+      // TODO: show a toast or error message
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   useEffect(() => {
@@ -103,7 +117,12 @@ export const Dashboard = ({
           </tbody>
         </table>
       </section>
-      <Footer isDirty={isDirty} onReset={handleReset} onUpdate={handleUpdate} />
+      <Footer
+        isDirty={isDirty}
+        isUpdating={isUpdating}
+        onReset={handleReset}
+        onUpdate={handleUpdate}
+      />
     </>
   );
 };

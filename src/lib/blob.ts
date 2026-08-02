@@ -1,16 +1,17 @@
-import { get } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import type { EventRaw, VenueRaw } from "@/types";
 
-const BLOB_BASE_URL = process.env.BLOB_BASE_URL!;
+export const BLOB_BASE_URL = process.env.BLOB_BASE_URL!;
 
-const BLOB_PATHS = {
+export const BLOB_PATHS = {
   venues: "venues.json",
   events: "events.json",
+  images: "images",
 } as const;
 
 type BlobKey = keyof typeof BLOB_PATHS;
 
-function getBlobPath(key: BlobKey): string {
+function getBlobUrl(key: BlobKey): string {
   return `${BLOB_BASE_URL}/${BLOB_PATHS[key]}`;
 }
 
@@ -28,16 +29,26 @@ async function getBlobStream(path: string) {
   return result.stream;
 }
 
+async function putBlobJson(key: BlobKey, data: unknown) {
+  await put(BLOB_PATHS[key], JSON.stringify(data, null, 2), {
+    access: "public",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+  });
+}
+
 async function getBlobJson<T>(path: string): Promise<T> {
   const stream = await getBlobStream(path);
   const data = await new Response(stream).json();
   return data as T;
 }
 
-export async function getVenuesBlob(): Promise<VenueRaw[]> {
-  return getBlobJson<VenueRaw[]>(getBlobPath("venues"));
-}
+export const getEventsBlob = () =>
+  getBlobJson<EventRaw[]>(getBlobUrl("events"));
 
-export async function getEventsBlob(): Promise<EventRaw[]> {
-  return getBlobJson<EventRaw[]>(getBlobPath("events"));
-}
+export const getVenuesBlob = () =>
+  getBlobJson<VenueRaw[]>(getBlobUrl("venues"));
+
+export const putEventsBlob = (events: EventRaw[]) =>
+  putBlobJson("events", events);

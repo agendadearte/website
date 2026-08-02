@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Card } from "@agendadearte/sketchbox";
 
 import { buildEventsService } from "@/lib/services";
+import { getImageUrl } from "@/lib/adapters";
 import { MasonryWrapper } from "./components/Masonry";
 
 import "./styles.scss";
@@ -34,7 +35,7 @@ export default async function HomePage() {
               finalString: event.finalString,
               finalUTF: event.finalDate,
             }}
-            images={event.images}
+            images={event.images.map((image) => getImageUrl(image))}
           />
         </Link>
       ))}

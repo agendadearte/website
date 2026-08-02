@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import parse from "html-react-parser";
 
 import { buildEventsService } from "@/lib/services";
+import { getImageUrl } from "@/lib/adapters";
 
 import "./styles.scss";
 
@@ -67,7 +68,7 @@ export default async function EventPage({ params }: EventProps) {
         <aside className="event__aside">
           {event.images.length && (
             <img // eslint-disable-line @next/next/no-img-element
-              src={event.images[0]}
+              src={getImageUrl(event.images[0])}
               alt={`${event.author} - ${event.title}`}
             />
           )}
