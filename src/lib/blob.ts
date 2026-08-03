@@ -1,5 +1,5 @@
-import { get, put } from "@vercel/blob";
 import type { EventRaw, VenueRaw } from "@/types";
+import { del, get, list, put } from "@vercel/blob";
 
 export const BLOB_BASE_URL = process.env.BLOB_BASE_URL!;
 
@@ -29,7 +29,13 @@ async function getBlobStream(path: string) {
   return result.stream;
 }
 
-async function putBlobJson(key: BlobKey, data: unknown) {
+async function getBlobJson<T>(path: string): Promise<T> {
+  const stream = await getBlobStream(path);
+  const data = await new Response(stream).json();
+  return data as T;
+}
+
+async function putBlobJson(key: BlobKey, data: unknown): Promise<void> {
   await put(BLOB_PATHS[key], JSON.stringify(data, null, 2), {
     access: "public",
     addRandomSuffix: false,
@@ -38,10 +44,16 @@ async function putBlobJson(key: BlobKey, data: unknown) {
   });
 }
 
-async function getBlobJson<T>(path: string): Promise<T> {
-  const stream = await getBlobStream(path);
-  const data = await new Response(stream).json();
-  return data as T;
+async function listBlobNames(prefix: string): Promise<string[]> {
+  const { blobs } = await list({ prefix });
+
+  return blobs
+    .filter((blob) => !blob.pathname.endsWith("/"))
+    .map((blob) => blob.pathname.split("/").at(-1)!);
+}
+
+async function deleteBlobFiles(paths: string[]): Promise<void> {
+  await del(paths);
 }
 
 export const getEventsBlob = () =>
@@ -52,3 +64,8 @@ export const getVenuesBlob = () =>
 
 export const putEventsBlob = (events: EventRaw[]) =>
   putBlobJson("events", events);
+
+export const listImagesBlob = () => listBlobNames(BLOB_PATHS.images);
+
+export const deleteImagesBlob = (images: string[]) =>
+  deleteBlobFiles(images.map((image) => `${BLOB_PATHS.images}/${image}`));

@@ -1,7 +1,13 @@
 import type { EventDetails, Events } from "@/types/events";
 import type { Venue, Venues } from "@/types/venues";
 import { normalizeEvent } from "@/lib/adapters";
-import { getEventsBlob, getVenuesBlob, putEventsBlob } from "@/lib/blob";
+import {
+  deleteImagesBlob,
+  getEventsBlob,
+  getVenuesBlob,
+  listImagesBlob,
+  putEventsBlob,
+} from "@/lib/blob";
 import { todayInMadrid } from "@/lib/dates";
 
 let eventsCache: Events = [];
@@ -54,9 +60,19 @@ async function getEventDetails(id: string): Promise<EventDetails | null> {
 async function updateEvents(events: Events): Promise<void> {
   await putEventsBlob(events);
 
-  eventsCache = events;
+  const referencedImages = new Set(events.flatMap((event) => event.images));
 
-  return;
+  const blobImages = await listImagesBlob();
+
+  const orphanImages = blobImages.filter(
+    (image) => !referencedImages.has(image),
+  );
+
+  if (orphanImages.length > 0) {
+    await deleteImagesBlob(orphanImages);
+  }
+
+  eventsCache = events;
 }
 
 export function buildEventsService() {
