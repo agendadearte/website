@@ -25,7 +25,6 @@ export default async function DashboardPage() {
   const venues = await eventsService.getAllVenues();
 
   const today = todayInMadrid();
-  const venuesById = new Map(venues.map((venue) => [venue.id, venue]));
 
   return (
     <article className="page-content">
@@ -36,7 +35,7 @@ export default async function DashboardPage() {
           <LogOut />
         </div>
       </header>
-      <Dashboard initialEvents={events} today={today} venuesById={venuesById} />
+      <Dashboard initialEvents={events} today={today} venues={venues} />
     </article>
   );
 }

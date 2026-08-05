@@ -5,6 +5,7 @@ import { Button } from "@/components";
 type FooterProps = {
   isDirty: boolean;
   isUpdating: boolean;
+  onAddEvent: () => void;
   onReset: () => void;
   onUpdate: () => void;
 };
@@ -15,10 +16,12 @@ const getFooterMessage = (isDirty: boolean) =>
 export const Footer = ({
   isDirty,
   isUpdating,
+  onAddEvent,
   onReset,
   onUpdate,
 }: FooterProps) => (
   <footer className="dashboard__footer">
+    <Button onClick={onAddEvent} text="Add event" />
     <p>{getFooterMessage(isDirty)}</p>
     <Button onClick={onReset} text="Reset" disabled={!isDirty || isUpdating} />
     <Button

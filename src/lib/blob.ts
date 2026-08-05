@@ -69,3 +69,6 @@ export const listImagesBlob = () => listBlobNames(BLOB_PATHS.images);
 
 export const deleteImagesBlob = (images: string[]) =>
   deleteBlobFiles(images.map((image) => `${BLOB_PATHS.images}/${image}`));
+
+export const getImageUrl = (image: string) =>
+  `${BLOB_BASE_URL}/${BLOB_PATHS.images}/${image}`;

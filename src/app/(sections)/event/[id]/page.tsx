@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import parse from "html-react-parser";
 
 import { buildEventsService } from "@/lib/services";
-import { getImageUrl } from "@/lib/adapters";
+import { getImageUrl } from "@/lib/blob";
 
 import "./styles.scss";
 

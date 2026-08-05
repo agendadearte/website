@@ -1,6 +1,6 @@
 import type { EventDetails, Events } from "@/types/events";
 import type { Venue, Venues } from "@/types/venues";
-import { normalizeEvent } from "@/lib/adapters";
+import { normalizeEvent, sortEvents } from "@/lib/adapters";
 import {
   deleteImagesBlob,
   getEventsBlob,
@@ -14,14 +14,17 @@ let eventsCache: Events = [];
 let venuesCache: Venues = [];
 let venuesById = new Map<string, Venue>();
 
+const getOrphanImages = (events: Events, blobImages: string[]): string[] => {
+  const referencedImages = new Set(events.flatMap((event) => event.images));
+
+  return blobImages.filter((image) => !referencedImages.has(image));
+};
+
 async function getAllEvents(): Promise<Events> {
   if (eventsCache.length) return eventsCache;
 
   const raw = await getEventsBlob();
-
-  eventsCache = raw
-    .sort((a, b) => a.finalDate.localeCompare(b.finalDate))
-    .map(normalizeEvent);
+  eventsCache = sortEvents(raw).map(normalizeEvent);
 
   return eventsCache;
 }
@@ -60,19 +63,18 @@ async function getEventDetails(id: string): Promise<EventDetails | null> {
 async function updateEvents(events: Events): Promise<void> {
   await putEventsBlob(events);
 
-  const referencedImages = new Set(events.flatMap((event) => event.images));
-
-  const blobImages = await listImagesBlob();
-
-  const orphanImages = blobImages.filter(
-    (image) => !referencedImages.has(image),
-  );
-
-  if (orphanImages.length > 0) {
-    await deleteImagesBlob(orphanImages);
-  }
-
   eventsCache = events;
+
+  try {
+    const blobImages = await listImagesBlob();
+    const orphanImages = getOrphanImages(events, blobImages);
+
+    if (orphanImages.length) {
+      await deleteImagesBlob(orphanImages);
+    }
+  } catch (error) {
+    console.error("Image cleanup failed", error);
+  }
 }
 
 export function buildEventsService() {

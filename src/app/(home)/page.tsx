@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Card } from "@agendadearte/sketchbox";
 
 import { buildEventsService } from "@/lib/services";
-import { getImageUrl } from "@/lib/adapters";
+import { getImageUrl } from "@/lib/blob";
 import { MasonryWrapper } from "./components/Masonry";
 
 import "./styles.scss";

@@ -11,12 +11,12 @@ export interface EventRaw {
   venueId: string;
 }
 
-export interface EventDates {
+export interface EventFormattedDates {
   initialString: string;
   finalString: string;
 }
 
-export type Event = EventRaw & EventDates;
+export type Event = EventRaw & EventFormattedDates;
 
 export type Events = Event[];
 

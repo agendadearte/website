@@ -1,31 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import type { Events } from "@/types/events";
-import type { Venue } from "@/types/venues";
+import type { EventRaw, Events } from "@/types/events";
+import type { Venues } from "@/types/venues";
 import { updateEventsAction } from "@/app/actions/dashboard";
+import { normalizeEvent, sortEvents } from "@/lib/adapters";
 import { EventRow } from "./EventRow";
 import { Footer } from "./Footer";
+import { NewEventModal } from "./NewEventModal";
 
 type DashboardProps = {
   initialEvents: Events;
   today: string;
-  venuesById: Map<string, Venue>;
+  venues: Venues;
 };
 
 const STORAGE_KEY = "agenda-de-arte.events.draft";
 
-export const Dashboard = ({
-  initialEvents,
-  today,
-  venuesById,
-}: DashboardProps) => {
+export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
   const [events, setEvents] = useState(initialEvents);
   const [draftLoaded, setDraftLoaded] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isNewEventOpen, setNewEventOpen] = useState(false);
 
   const isDirty = JSON.stringify(events) !== JSON.stringify(initialEvents);
+
+  const venuesById = useMemo(
+    () => new Map(venues.map((venue) => [venue.id, venue])),
+    [venues],
+  );
+
+  const handleCreateEvent = (event: EventRaw) => {
+    setEvents((events) => sortEvents([...events, normalizeEvent(event)]));
+  };
 
   const handleRemoveEvent = (id: string) => {
     setEvents((events) => events.filter((event) => event.id !== id));
@@ -53,25 +61,20 @@ export const Dashboard = ({
 
   useEffect(() => {
     try {
-      const draftSaved = localStorage.getItem(STORAGE_KEY);
+      const savedDraft = localStorage.getItem(STORAGE_KEY);
 
-      if (!draftSaved) {
-        setEvents(initialEvents);
-        return;
-      }
+      if (!savedDraft) return;
 
-      const draft = JSON.parse(draftSaved);
+      const draft = JSON.parse(savedDraft);
 
       if (!Array.isArray(draft)) {
         localStorage.removeItem(STORAGE_KEY);
-        setEvents(initialEvents);
         return;
       }
 
       setEvents(draft);
     } catch {
       localStorage.removeItem(STORAGE_KEY);
-      setEvents(initialEvents);
     } finally {
       setDraftLoaded(true);
     }
@@ -120,9 +123,17 @@ export const Dashboard = ({
       <Footer
         isDirty={isDirty}
         isUpdating={isUpdating}
+        onAddEvent={() => setNewEventOpen(true)}
         onReset={handleReset}
         onUpdate={handleUpdate}
       />
+      {isNewEventOpen && (
+        <NewEventModal
+          onClose={() => setNewEventOpen(false)}
+          onCreate={handleCreateEvent}
+          venues={venues}
+        />
+      )}
     </>
   );
 };
