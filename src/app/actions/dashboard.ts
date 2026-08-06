@@ -7,7 +7,7 @@ import type { Events } from "@/types";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { buildEventsService } from "@/lib/services";
 
-export async function updateEventsAction(events: Events) {
+export async function updateEventsAction(events: Events, images: File[]) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -16,7 +16,7 @@ export async function updateEventsAction(events: Events) {
 
   const service = buildEventsService();
 
-  await service.updateEvents(events);
+  await service.updateEvents(events, images);
 
   revalidatePath("/dashboard");
 }

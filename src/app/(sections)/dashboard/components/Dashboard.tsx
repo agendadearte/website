@@ -20,37 +20,52 @@ const STORAGE_KEY = "agenda-de-arte.events.draft";
 
 export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
   const [events, setEvents] = useState(initialEvents);
+  const [images, setImages] = useState<File[]>([]);
   const [draftLoaded, setDraftLoaded] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isNewEventOpen, setNewEventOpen] = useState(false);
 
-  const isDirty = JSON.stringify(events) !== JSON.stringify(initialEvents);
+  const isDirty =
+    images.length > 0 ||
+    JSON.stringify(events) !== JSON.stringify(initialEvents);
 
   const venuesById = useMemo(
     () => new Map(venues.map((venue) => [venue.id, venue])),
     [venues],
   );
 
-  const handleCreateEvent = (event: EventRaw) => {
-    setEvents((events) => sortEvents([...events, normalizeEvent(event)]));
+  const handleCreateEvent = (newEvent: EventRaw, newImages: File[]) => {
+    setImages((prevImages) => [...prevImages, ...newImages]);
+    setEvents((prevEvents) =>
+      sortEvents([...prevEvents, normalizeEvent(newEvent)]),
+    );
   };
 
   const handleRemoveEvent = (id: string) => {
-    setEvents((events) => events.filter((event) => event.id !== id));
+    const event = events.find((e) => e.id === id);
+    if (!event) return;
+
+    setEvents((prevEvents) => prevEvents.filter((e) => e.id !== id));
+
+    setImages((prevImages) =>
+      prevImages.filter((image) => !event.images.includes(image.name)),
+    );
   };
 
   const handleReset = () => {
     localStorage.removeItem(STORAGE_KEY);
     setEvents(initialEvents);
+    setImages([]);
   };
 
   const handleUpdate = async () => {
     setIsUpdating(true);
 
     try {
-      await updateEventsAction(events);
+      await updateEventsAction(events, images);
 
       localStorage.removeItem(STORAGE_KEY);
+      setImages([]);
     } catch (error) {
       console.error(error);
       // TODO: show a toast or error message

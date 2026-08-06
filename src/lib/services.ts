@@ -7,6 +7,7 @@ import {
   getVenuesBlob,
   listImagesBlob,
   putEventsBlob,
+  putImagesBlob,
 } from "@/lib/blob";
 import { todayInMadrid } from "@/lib/dates";
 
@@ -60,7 +61,8 @@ async function getEventDetails(id: string): Promise<EventDetails | null> {
   };
 }
 
-async function updateEvents(events: Events): Promise<void> {
+async function updateEvents(events: Events, images: File[]): Promise<void> {
+  await putImagesBlob(images);
   await putEventsBlob(events);
 
   eventsCache = events;

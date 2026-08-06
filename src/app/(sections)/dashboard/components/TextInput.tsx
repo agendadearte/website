@@ -2,13 +2,14 @@ import { ChangeEvent } from "react";
 import { FromGroupLabel } from "./FormGroupLabel";
 
 export type TextInputProps = {
+  label: string;
+  type?: string;
   disabled?: boolean;
   name: string;
-  label: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
-  type?: string;
   value: string;
+  multiple?: boolean;
 };
 
 export const TextInput = ({ type = "text", ...props }: TextInputProps) => {
@@ -25,6 +26,7 @@ export const TextInput = ({ type = "text", ...props }: TextInputProps) => {
         onChange={props.onChange}
         placeholder={props.placeholder}
         value={props.value}
+        multiple={props.multiple}
       />
     </div>
   );

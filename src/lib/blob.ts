@@ -44,6 +44,16 @@ async function putBlobJson(key: BlobKey, data: unknown): Promise<void> {
   });
 }
 
+async function putBlobImage(image: File): Promise<string> {
+  await put(`${BLOB_PATHS.images}/${image.name}`, image, {
+    access: "public",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+  });
+
+  return image.name;
+}
+
 async function listBlobNames(prefix: string): Promise<string[]> {
   const { blobs } = await list({ prefix });
 
@@ -64,6 +74,9 @@ export const getVenuesBlob = () =>
 
 export const putEventsBlob = (events: EventRaw[]) =>
   putBlobJson("events", events);
+
+export const putImagesBlob = (images: File[]) =>
+  Promise.all(images.map(putBlobImage));
 
 export const listImagesBlob = () => listBlobNames(BLOB_PATHS.images);
 
