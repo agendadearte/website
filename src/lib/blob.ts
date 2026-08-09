@@ -75,7 +75,7 @@ export const getVenuesBlob = () =>
 export const putEventsBlob = (events: EventRaw[]) =>
   putBlobJson("events", events);
 
-export const putImagesBlob = (images: File[]) =>
+export const uploadImagesBlob = (images: File[]) =>
   Promise.all(images.map(putBlobImage));
 
 export const listImagesBlob = () => listBlobNames(BLOB_PATHS.images);

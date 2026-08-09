@@ -5,6 +5,7 @@ type EventRowProps = {
   event: Event;
   isOutdated: boolean;
   venue?: Venue;
+  onEditEvent(id: string): void;
   onRemove(id: string): void;
 };
 
@@ -12,6 +13,7 @@ export const EventRow = ({
   event,
   isOutdated,
   venue,
+  onEditEvent,
   onRemove,
 }: EventRowProps) => (
   <tr className={isOutdated ? "table-danger" : ""}>
@@ -26,7 +28,11 @@ export const EventRow = ({
     </td>
     <td>{event.images}</td>
     <td className="d-flex gap-2">
-      <button type="button" className="btn btn-sm btn-outline-secondary">
+      <button
+        type="button"
+        className="btn btn-sm btn-outline-secondary"
+        onClick={() => onEditEvent(event.id)}
+      >
         Edit
       </button>
       <button

@@ -9,32 +9,47 @@ import { SelectInput } from "./SelectInput";
 import { DateInput } from "./DateInput";
 import { TextArea } from "./TextArea";
 import { ImageInput } from "./ImageInput";
+import { getImageUrl } from "@/lib/blob";
 
-type NewEventModalProps = {
-  onClose: () => void;
-  onCreate: (event: EventRaw, images: File[]) => void;
+type EventModalProps = {
+  event?: EventRaw;
   venues: Venues;
+  onClose: () => void;
+  onSave: (event: EventRaw, images: File[]) => void;
 };
 
-export const NewEventModal = ({
-  onClose,
-  onCreate,
+export const EventModal = ({
+  event,
   venues,
-}: NewEventModalProps) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [venueId, setVenueId] = useState("");
-  const [description, setDescription] = useState("");
-  const [initialDate, setInitialDate] = useState(todayInMadrid());
-  const [finalDate, setFinalDate] = useState(todayInMadrid());
-  const [images, setImages] = useState<File[]>([]);
+  onClose,
+  onSave,
+}: EventModalProps) => {
+  const [title, setTitle] = useState(event?.title ?? "");
+  const [author, setAuthor] = useState(event?.author ?? "");
+  const [venueId, setVenueId] = useState(event?.venueId ?? "");
+  const [description, setDescription] = useState(event?.description ?? "");
+  const [initialDate, setInitialDate] = useState(
+    event?.initialDate ?? todayInMadrid(),
+  );
+  const [finalDate, setFinalDate] = useState(
+    event?.finalDate ?? todayInMadrid(),
+  );
+  const [currentImages, setCurrentImages] = useState(event?.images ?? []);
+  const [newImages, setNewImages] = useState<File[]>([]);
+
+  const imagesNames = useMemo(
+    () => [
+      ...new Set([...currentImages, ...newImages.map((image) => image.name)]),
+    ],
+    [currentImages, newImages],
+  );
 
   const formIsValid = [
     title,
     author,
     initialDate,
     finalDate,
-    images.length > 0,
+    imagesNames.length > 0,
     description,
     venueId,
   ].every(Boolean);
@@ -45,7 +60,7 @@ export const NewEventModal = ({
     const files = Array.from(e.target.files ?? []);
     const resized = await Promise.all(files.map(resizeImage));
 
-    setImages((prevImages) => {
+    setNewImages((prevImages) => {
       const existingNames = new Set(prevImages.map((image) => image.name));
 
       return [
@@ -57,40 +72,50 @@ export const NewEventModal = ({
     e.target.value = "";
   };
 
-  const handleRemoveImage = (name: string) => {
-    setImages((images) => images.filter((image) => image.name !== name));
+  const handleRemoveImage = (imageName: string) => {
+    setCurrentImages((images) => images.filter((image) => image !== imageName));
+    setNewImages((images) => images.filter((file) => file.name !== imageName));
   };
 
-  const handleCreate = () => {
+  const handleSave = () => {
     if (!formIsValid) return;
 
     const newEvent: EventRaw = {
-      id: formatEventId(title),
+      id: event?.id ?? formatEventId(title),
       title,
       author,
       initialDate,
       finalDate,
-      images: images.map((image) => image.name),
+      images: imagesNames,
       description,
       venueId,
     };
 
-    onCreate(newEvent, images);
+    onSave(newEvent, newImages);
     onClose();
   };
 
   const previews = useMemo(
-    () =>
-      images.map((image) => ({
-        file: image,
-        url: URL.createObjectURL(image),
+    () => [
+      ...currentImages.map((name) => ({
+        name,
+        url: getImageUrl(name),
+        isObjectUrl: false,
       })),
-    [images],
+      ...newImages.map((file) => ({
+        name: file.name,
+        url: URL.createObjectURL(file),
+        isObjectUrl: true,
+      })),
+    ],
+    [currentImages, newImages],
   );
 
   useEffect(() => {
     return () => {
-      previews.forEach(({ url }) => URL.revokeObjectURL(url));
+      previews.forEach(({ url, isObjectUrl }) => {
+        if (isObjectUrl) URL.revokeObjectURL(url);
+      });
     };
   }, [previews]);
 
@@ -175,22 +200,19 @@ export const NewEventModal = ({
                 value=""
               />
               <div className="row g-3 mt-1">
-                {previews.map(({ file, url }) => (
-                  <div
-                    key={file.name}
-                    className="col-4 col-md-3 position-relative"
-                  >
+                {previews.map(({ name, url }) => (
+                  <div key={name} className="col-4 col-md-3 position-relative">
                     <button
                       type="button"
                       className="btn btn-sm btn-light rounded-circle position-absolute top-0 end-0 m-1"
                       aria-label="Close"
-                      onClick={() => handleRemoveImage(file.name)}
+                      onClick={() => handleRemoveImage(name)}
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <img
                       src={url}
-                      alt={file.name}
+                      alt={name}
                       className="img-thumbnail w-100"
                       style={{
                         aspectRatio: "1",
@@ -213,9 +235,9 @@ export const NewEventModal = ({
                 type="button"
                 className="btn btn-primary"
                 disabled={!formIsValid}
-                onClick={handleCreate}
+                onClick={handleSave}
               >
-                Create event
+                {event ? "Save changes" : "Create event"}
               </button>
             </div>
           </div>

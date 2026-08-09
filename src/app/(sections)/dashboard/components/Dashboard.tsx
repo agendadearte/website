@@ -8,7 +8,7 @@ import { updateEventsAction } from "@/app/actions/dashboard";
 import { normalizeEvent, sortEvents } from "@/lib/adapters";
 import { EventRow } from "./EventRow";
 import { Footer } from "./Footer";
-import { NewEventModal } from "./NewEventModal";
+import { EventModal } from "./EventModal";
 
 type DashboardProps = {
   initialEvents: Events;
@@ -23,7 +23,10 @@ export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
   const [images, setImages] = useState<File[]>([]);
   const [draftLoaded, setDraftLoaded] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isNewEventOpen, setNewEventOpen] = useState(false);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<EventRaw | undefined>(
+    undefined,
+  );
 
   const isDirty =
     images.length > 0 ||
@@ -34,11 +37,45 @@ export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
     [venues],
   );
 
-  const handleCreateEvent = (newEvent: EventRaw, newImages: File[]) => {
-    setImages((prevImages) => [...prevImages, ...newImages]);
-    setEvents((prevEvents) =>
-      sortEvents([...prevEvents, normalizeEvent(newEvent)]),
-    );
+  const handleCreateEvent = () => {
+    setEditingEvent(undefined);
+    setEditOpen(true);
+  };
+
+  const handleEditEvent = (id: string) => {
+    const event = events.find((e) => e.id === id);
+    if (!event) return;
+
+    setEditingEvent(event);
+    setEditOpen(true);
+  };
+
+  const handleSaveEvent = (newEvent: EventRaw, newImages: File[]) => {
+    setImages((prevImages) => {
+      const imagesByName = new Map(
+        prevImages.map((image) => [image.name, image]),
+      );
+
+      newImages.forEach((image) => {
+        imagesByName.set(image.name, image);
+      });
+
+      return [...imagesByName.values()];
+    });
+
+    const normalizedEvent = normalizeEvent(newEvent);
+
+    setEvents((prevEvents) => {
+      const eventExists = prevEvents.some((event) => event.id === newEvent.id);
+
+      const updatedEvents = eventExists
+        ? prevEvents.map((event) =>
+            event.id === newEvent.id ? normalizedEvent : event,
+          )
+        : [...prevEvents, normalizedEvent];
+
+      return sortEvents(updatedEvents);
+    });
   };
 
   const handleRemoveEvent = (id: string) => {
@@ -50,6 +87,11 @@ export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
     setImages((prevImages) =>
       prevImages.filter((image) => !event.images.includes(image.name)),
     );
+  };
+
+  const handleCloseEdit = () => {
+    setEditingEvent(undefined);
+    setEditOpen(false);
   };
 
   const handleReset = () => {
@@ -128,6 +170,7 @@ export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
                   event={event}
                   isOutdated={isOutdated}
                   venue={venue}
+                  onEditEvent={handleEditEvent}
                   onRemove={handleRemoveEvent}
                 />
               );
@@ -138,14 +181,15 @@ export const Dashboard = ({ initialEvents, today, venues }: DashboardProps) => {
       <Footer
         isDirty={isDirty}
         isUpdating={isUpdating}
-        onAddEvent={() => setNewEventOpen(true)}
+        onAddEvent={handleCreateEvent}
         onReset={handleReset}
         onUpdate={handleUpdate}
       />
-      {isNewEventOpen && (
-        <NewEventModal
-          onClose={() => setNewEventOpen(false)}
-          onCreate={handleCreateEvent}
+      {isEditOpen && (
+        <EventModal
+          event={editingEvent}
+          onClose={handleCloseEdit}
+          onSave={handleSaveEvent}
           venues={venues}
         />
       )}
