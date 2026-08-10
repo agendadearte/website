@@ -25,12 +25,12 @@
   "license": "ISC",
   "overrides": {
     "immutable": "5.1.9",
-    "postcss": "8.5.25",
+    "postcss": "8.5.26",
     "sharp": "0.35.3"
   },
   "dependencies": {
     "@agendadearte/sketchbox": "^4.0.0",
-    "@vercel/blob": "^2.6.1",
+    "@vercel/blob": "^2.7.0",
     "bootstrap": "^5.3.8",
     "html-react-parser": "^6.1.4",
     "leaflet": "^1.9.4",
