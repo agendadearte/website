@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import parse from "html-react-parser";
 
 import { buildEventsService } from "@/lib/services";
-import styles from "./event.module.scss";
+import { getImageUrl } from "@/lib/blob";
+
+import "./styles.scss";
 
 type EventProps = {
   params: Promise<{ id: string }>;
@@ -57,30 +59,30 @@ export default async function EventPage({ params }: EventProps) {
   const event = await getEvent(id);
 
   return (
-    <article>
-      <header className={styles.header}>
-        <h1 className={styles.author}>{event.author}</h1>
-        <h2 className={styles.title}>{event.title}</h2>
+    <article className="page-content">
+      <header className="event__header">
+        <h1 className="event__author">{event.author}</h1>
+        <h2 className="event__title">{event.title}</h2>
       </header>
-      <div className={styles.container}>
-        <aside className={styles.aside}>
+      <div className="event__container">
+        <aside className="event__aside">
           {event.images.length && (
             <img // eslint-disable-line @next/next/no-img-element
-              src={event.images[0]}
+              src={getImageUrl(event.images[0])}
               alt={`${event.author} - ${event.title}`}
             />
           )}
         </aside>
-        <section className={styles.section}>
-          <ul className={styles.places}>
+        <section className="event__section">
+          <ul className="event__places">
             <li>
               <i
-                className={`${styles.icon} material-icons-outlined`}
+                className="material-icons-outlined event__icon "
                 aria-hidden="true"
               >
                 place
               </i>
-              <address className={styles.address}>
+              <address className="event__address">
                 {event.venue.name}
                 <br />
                 <small>{event.venue.address}</small>
@@ -88,7 +90,7 @@ export default async function EventPage({ params }: EventProps) {
             </li>
             <li>
               <i
-                className={`${styles.icon} material-icons-outlined`}
+                className="material-icons-outlined event__icon"
                 aria-hidden="true"
               >
                 calendar_today
@@ -101,7 +103,7 @@ export default async function EventPage({ params }: EventProps) {
             </li>
             <li>
               <i
-                className={`${styles.icon} material-icons-outlined`}
+                className="material-icons-outlined event__icon"
                 aria-hidden="true"
               >
                 link
@@ -111,7 +113,9 @@ export default async function EventPage({ params }: EventProps) {
               </a>
             </li>
           </ul>
-          <article>{parse(event.description)}</article>
+          <article className="event__description">
+            {parse(event.description)}
+          </article>
         </section>
       </div>
     </article>

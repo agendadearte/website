@@ -1,0 +1,17 @@
+.masonry {
+  &__container {
+    display: flex;
+    margin: 0 -0.5rem;
+    width: auto;
+    height: 100dvh;
+    margin-top: calc(-1 * var(--header-height));
+    padding-top: var(--header-height);
+    overflow-y: auto;
+  }
+
+  &__columns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

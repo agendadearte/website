@@ -2,8 +2,6 @@
 
 import Masonry from "react-masonry-css";
 
-import styles from "./masonry.module.scss";
-
 const breakpointColumns = {
   default: 6,
   1240: 4,
@@ -14,9 +12,9 @@ const breakpointColumns = {
 
 export const MasonryWrapper = ({ children }: { children: React.ReactNode }) => (
   <Masonry
-    columnClassName={styles.columns}
     breakpointCols={breakpointColumns}
-    className={styles.grid}
+    className="masonry__container"
+    columnClassName="masonry__columns"
   >
     {children}
   </Masonry>

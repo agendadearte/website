@@ -32,7 +32,6 @@ export default function LeafletMap({ venues }: MapProps) {
       center={[40.4284, -3.70815]}
       doubleClickZoom
       scrollWheelZoom={false}
-      style={{ height: "30rem", marginBlockStart: "1rem" }}
       zoom={11}
     >
       {/* https://docs.stadiamaps.com/map-styles/stamen-toner/*/}

@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { buildEventsService } from "@/lib/services";
 import { MapWrapper } from "./components/MapWrapper";
-import styles from "./styles.module.scss";
+
+import "./styles.scss";
 
 const PAGE_TITLE = "Lugares";
 
@@ -12,25 +13,28 @@ export default async function VenuesPage() {
   const venues = await eventsService.getAllVenues();
 
   return (
-    <>
-      <h1>{PAGE_TITLE}</h1>
+    <article className="page-content">
+      <header className="page-header">
+        <h1 className="page-title">{PAGE_TITLE}</h1>
+      </header>
+
       <MapWrapper venues={venues} />
-      <ul className={styles.list__container}>
+      <ul className="venues-list__container">
         {venues.map((venue) => (
-          <li key={`${venue.id}-details`} className={styles.list__item}>
-            <h3 className={styles.list__title}>{venue.name}</h3>
-            <div className={styles.list__address}>
+          <li key={`${venue.id}-details`} className="venues-list__item">
+            <h3 className="venues-list__title">{venue.name}</h3>
+            <div className="venues-list__address">
               <i
-                className={`material-icons-outlined ${styles.icon}`}
+                className="material-icons-outlined venues-list__icon"
                 aria-hidden="true"
               >
                 place
               </i>
               <address>{venue.address}</address>
             </div>
-            <div className={styles.list__web}>
+            <div className="venues-list__web">
               <i
-                className={`material-icons-outlined ${styles.icon}`}
+                className="material-icons-outlined venues-list__icon"
                 aria-hidden="true"
               >
                 link
@@ -42,6 +46,6 @@ export default async function VenuesPage() {
           </li>
         ))}
       </ul>
-    </>
+    </article>
   );
 }

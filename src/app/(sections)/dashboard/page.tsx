@@ -3,7 +3,12 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { buildEventsService } from "@/lib/services";
+import { todayInMadrid } from "@/lib/dates";
+import { Dashboard } from "./components/Dashboard";
 import { LogOut } from "./components/LogOut";
+
+import "./styles.scss";
 
 const PAGE_TITLE = "Panel de control";
 
@@ -14,17 +19,23 @@ export default async function DashboardPage() {
 
   if (!session) redirect("/login");
 
+  const eventsService = buildEventsService();
+
+  const events = await eventsService.getAllEvents();
+  const venues = await eventsService.getAllVenues();
+
+  const today = todayInMadrid();
+
   return (
-    <article>
-      <header>
-        <h1>{PAGE_TITLE}</h1>
+    <article className="page-content">
+      <header className="page-header">
+        <h1 className="page-title">{PAGE_TITLE}</h1>
+        <div className="d-flex gap-3 align-items-center">
+          <p className="mb-0">Loged user: {session.user?.name}</p>
+          <LogOut />
+        </div>
       </header>
-      <section>
-        <p>
-          <code>Loged user: {session.user?.name}</code>
-        </p>
-        <LogOut />
-      </section>
+      <Dashboard initialEvents={events} today={today} venues={venues} />
     </article>
   );
 }

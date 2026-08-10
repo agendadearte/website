@@ -14,12 +14,12 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   return (
-    <article>
-      <header>
-        <h1>{PAGE_TITLE}</h1>
+    <article className="page-content">
+      <header className="page-header">
+        <h1 className="page-title">{PAGE_TITLE}</h1>
       </header>
       <section>
-        <h2>{error}</h2>
+        {error && <h2>{error}</h2>}
         <LogIn />
       </section>
     </article>

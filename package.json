@@ -1,6 +1,6 @@
 {
   "name": "agendadearte",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Events calendar of art galleries in the Community of Madrid",
   "main": "index.js",
   "type": "module",
@@ -24,16 +24,18 @@
   },
   "license": "ISC",
   "overrides": {
-    "postcss": "8.5.10",
-    "uuid": "11.1.1"
+    "immutable": "5.1.9",
+    "postcss": "8.5.26",
+    "sharp": "0.35.3"
   },
   "dependencies": {
     "@agendadearte/sketchbox": "^4.0.0",
-    "@vercel/blob": "^2.6.1",
+    "@vercel/blob": "^2.7.0",
+    "bootstrap": "^5.3.8",
     "html-react-parser": "^6.1.4",
     "leaflet": "^1.9.4",
-    "next": "^16.2.6",
-    "next-auth": "^4.24.14",
+    "next": "^16.2.12",
+    "next-auth": "^4.24.15",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",

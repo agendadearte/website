@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { Card } from "@agendadearte/sketchbox";
 
 import { buildEventsService } from "@/lib/services";
+import { getImageUrl } from "@/lib/blob";
 import { MasonryWrapper } from "./components/Masonry";
+
+import "./styles.scss";
 
 const PAGE_TITLE = "Eventos";
 
@@ -13,7 +16,7 @@ export const revalidate = 3600; // every hour
 
 export default async function HomePage() {
   const eventsService = buildEventsService();
-  const events = await eventsService.getAllEvents();
+  const events = await eventsService.getActiveEvents();
 
   return (
     <MasonryWrapper>
@@ -32,7 +35,7 @@ export default async function HomePage() {
               finalString: event.finalString,
               finalUTF: event.finalDate,
             }}
-            images={event.images}
+            images={event.images.map((image) => getImageUrl(image))}
           />
         </Link>
       ))}
